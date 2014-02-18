@@ -3,25 +3,18 @@
 	include 'include/db_mysql.class.php';
 	include 'include/config.inc.php';	
 	
-	$DBLink = mysqli_connect(DBHOST,DBUSER,DBPW);
+	$DBLINK = new mysqli(DBHOST, DBUSER, DBPW, DBNAME, DBPORT);
+	$DBLINK->set_charset(DBCHARSET);
 	
-	if (!$DBLink) {
-		die('Could not connect:'.mysql_error());		
+	if (!$DBLINK) {
+		die("数据库连接失败！".$DBLINK->connect_error);
 	}
 	
-	mysql_select_db(DBNAME,$DBLink);
-	mysql_set_charset(DBCHARSET,$DBLink);
+		
+	$AcceptNameResult=$DBLINK->query('SELECT opt_uid,name FROM optusers');
 	
 	
-	$AcceptNameResult=mysql_query('SELECT opt_uid,name FROM optusers',$DBLink);
-	
-	
-	$CustomerNameResult=mysql_query('SELECT cid,CompayName FROM customerbaseinformation',$DBLink);
-	
-	$QuestionCategoryResult=mysql_query('SELECT qc_id,qc_name FROM questioncategory',$DBLink);
-	
-	
-
+	$QuestionCategoryResult=$DBLINK->query('SELECT qc_id,qc_name FROM questioncategory');
 
 
 ?>
@@ -56,7 +49,7 @@
 						</div>
 					</div>
 					<div class="box-content">
-						<form class="form-horizontal">
+						<form class="form-horizontal" method="post">
 							<fieldset>
 							<div class="control-group">
 								<label class="control-label">工单编号</label>
@@ -69,8 +62,15 @@
 								<label class="control-label" for="selectError">客户名称</label>
 								<div class="controls">
 									  <select id="selectError" data-rel="chosen">
-										<option>麦琪礼物</option>
-										<option>智龙</option>
+									  <?php 
+											while ($ANaleROW=$CustomerNameResult->fetch_array(MYSQL_ASSOC)) {
+													foreach ($ANaleROW as $key => $value) {
+														echo '<option>'."$value".'</option>';
+													}
+												}
+									  
+									  ?>									  
+
 									  </select>
 								</div>
 							  </div>
@@ -167,6 +167,6 @@
 			
 			
 <?php 
-mysql_close($DBLink);
+
 include('footer.php'); 
 ?>			

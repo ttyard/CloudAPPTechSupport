@@ -2,34 +2,68 @@
 
 	include 'include/config.inc.php';	
 	
-	$DBLink = mysqli_connect(DBHOST, DBUSER, DBPW, DBNAME, 3306);
+// 	$DBLink = mysqli_connect(DBHOST, DBUSER, DBPW, DBNAME, 3306);
 	
-	/* check connection */
-	if (mysqli_connect_errno()) {
-	    printf("Connect failed: %s\n", mysqli_connect_error());
-	    exit();
-	}
+// 	/* check connection */
+// 	if (mysqli_connect_errno()) {
+// 	    printf("Connect failed: %s\n", mysqli_connect_error());
+// 	    exit();
+// 	}
 	
-	mysqli_set_charset($DBLink, "utf8");
-// 	mysql_select_db(DBNAME,$DBLink);
-// 	mysql_set_charset(DBCHARSET,$DBLink);
+// 	mysqli_set_charset($DBLink, "utf8");
+// // 	mysql_select_db(DBNAME);
+// // 	mysql_set_charset(DBCHARSET);
 
 	
-    $result= mysqli_query($DBLink, 'SELECT opt_uid,name FROM optusers');
+//     $result= mysqli_query($DBLink, 'SELECT opt_uid,name FROM optusers');
     
-    while ($row= mysqli_fetch_array($result)) {
+//     while ($row= mysqli_fetch_array($result)) {
     	
 	    ?> 
-	<tr> 
+<!-- 	<tr>  
 	<td align="center" height="19"><?php echo $row["opt_uid"];?></td> 
 	<td align="center"><?php echo $row["name"];?></td> 
-	</tr> 
+
+	</tr>  -->
 	
 	<?php 
-    }
+//     }
 
-    mysqli_free_result($result);
-    mysqli_close($DBLink);
+//     mysqli_free_result($result);
+//     mysqli_close($DBLink);
     
+	$DBLINK = new mysqli(DBHOST, DBUSER, DBPW, DBNAME, DBPORT);
+	
+	if (!$DBLINK) {
+		die("数据库连接失败！".$DBLINK->connect_error);
+	}
+	
+	$DBLINK->set_charset(DBCHARSET);
+// 	$result = $DBLINK->query('SELECT opt_uid,name FROM optusers');
+	
+// 	while($row=$result->fetch_row())  {
+// 		foreach ($row as $key =>$val) {
+// 			echo '--'.$val;
+// 		}
+// 				echo "\n";
+
+// 	}
+
+	$AcceptNameResult=$DBLINK->query('SELECT opt_uid,name FROM optusers');
+	//$ANaleROW=$AcceptNameResult->fetch_array(MYSQL_ASSOC);
+	
+	while ($ANaleROW=$AcceptNameResult->fetch_array(MYSQL_ASSOC)) {
+        foreach ($ANaleROW as $key => $value) {
+			echo "$key".'='."$value";
+			echo "<br/>";     	
+
+        }
+
+	
+	}
+	
+	
+	$result->free();
+	$DBLINK->close();
 	
 	?>
