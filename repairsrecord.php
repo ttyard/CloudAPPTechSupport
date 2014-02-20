@@ -10,9 +10,9 @@
 		die("数据库连接失败！".$DBLINK->connect_error);
 	}
 	
-		
-	$AcceptNameResult=$DBLINK->query('SELECT opt_uid,name FROM optusers');
+	$CustomerNameResult = $DBLINK->query('SELECT cid,CompanyName FROM customerbaseinformation');
 	
+	$AcceptNameResult=$DBLINK->query('SELECT opt_uid,name FROM optusers');
 	
 	$QuestionCategoryResult=$DBLINK->query('SELECT qc_id,qc_name FROM questioncategory');
 
@@ -62,15 +62,12 @@
 								<label class="control-label" for="selectError">客户名称</label>
 								<div class="controls">
 									  <select id="selectError" data-rel="chosen">
-									  <?php 
-											while ($ANaleROW=$CustomerNameResult->fetch_array(MYSQL_ASSOC)) {
-													foreach ($ANaleROW as $key => $value) {
-														echo '<option>'."$value".'</option>';
-													}
-												}
-									  
-									  ?>									  
-
+										  <?php 
+										  
+											  while ($CNROW=$CustomerNameResult->fetch_array(MYSQL_ASSOC)) {
+											      echo '<option value='.$CNROW[cid].'>'.$CNROW[CompanyName].'</option>';
+											  }
+										  ?>
 									  </select>
 								</div>
 							  </div>
@@ -79,9 +76,14 @@
 								<label class="control-label" for="selectError3">受理人</label>
 								<div class="controls">
 								  <select id="selectError3">
-										<option>奚文杰</option>
-										<option>朱丽</option>
-										<option>王立杰</option>
+										<?php 
+										  
+											  while ($ACROW=$AcceptNameResult->fetch_array(MYSQL_ASSOC)) {
+											      echo '<option value='.$ACROW[opt_uid].'>'.$ACROW[name].'</option>';
+											  }
+										  ?>
+										
+										
 								  </select>
 								</div>
 							  </div>
@@ -97,11 +99,11 @@
 								<label class="control-label" for="selectError3">故障分类</label>
 								<div class="controls">
 								  <select id="selectError3">
-									<option>系统故障</option>
-									<option>软件故障</option>
-									<option>网络故障</option>
-									<option>Option 4</option>
-									<option>Option 5</option>
+										<?php 										  
+											  while ($QCROW=$QuestionCategoryResult->fetch_array(MYSQL_ASSOC)) {
+											      echo '<option value='.$QCROW[qc_id].'>'.$QCROW[qc_name].'</option>';
+											  }
+										  ?>
 								  </select>
 								</div>
 							  </div>

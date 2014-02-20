@@ -61,9 +61,37 @@
 
 	
 	}
+	$AcceptNameResult->free();
 	
 	
-	$result->free();
+	echo "<hr>";
+	
+	//$CustomerBaseInfoSQL=$DBLINK->query('SELECT cid,CompanyName FROM customerbaseinformation');
+	
+	$CustomerNameResult = $DBLINK->query('SELECT cid,CompanyName FROM customerbaseinformation');
+	
+	?>
+	 <select id="selectError" data-rel="chosen">
+		 <?php 
+		while ($CNROW=$CustomerNameResult->fetch_array(MYSQL_ASSOC)) {
+			 
+			echo '<option value='.$CNROW[cid].'>'.$CNROW[CompanyName].'</option>';
+		   }
+		?>
+	
+	</select>
+	<?php 
+	
+	$t1=$CustomerNameResult->fetch_array(MYSQL_ASSOC);
+	print_r($t1);	
+	
+	$CustomerNameResult->free();
+	
+	
+	
+	
+	
+	
 	$DBLINK->close();
 	
 	?>
