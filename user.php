@@ -10,7 +10,7 @@ if (!$DBLINK) {
 	die("数据库连接失败！".$DBLINK->connect_error);
 }
 
-$UserResult = $DBLINK->query('SELECT uid,username,Name,Telephone,Mobilephone,Address,Type FROM user');
+$UserResult = $DBLINK->query('SELECT `uid`,`username`,`Name`,`Telephone`,`Mobilephone`,`Address`,`Type` FROM `user`');
 
 
 ?>
@@ -62,9 +62,9 @@ $UserResult = $DBLINK->query('SELECT uid,username,Name,Telephone,Mobilephone,Add
 											<td>%s</td>
 											<td>%s</td>
 											<td class=\"center\">
-												<a class=\"btn btn-info\" href=\"UserEdit.php?uid=%s&action=Edit\">
+												<a class=\"btn btn-info\" href=\"UserEdit.php?uid=%s\">
 												    <i class=\"icon-edit icon-white\"></i> 编辑</a>
-												<a class=\"btn btn-danger\" href=\"UserEdit.php?uid=%s&action=Delete\">
+												<a class=\"btn btn-danger\" href=\"UserEdit.php?uid=%s\">
 													<i class=\"icon-trash icon-white\"></i>删除</a>
 											</td></tr>",$UROW['username'],$UROW['Name'],$UROW['Telephone'],$UROW['Mobilephone'],$UROW['Address'],$UROW['Type'],$UROW['uid'],$UROW['uid']);							  	
 						  	

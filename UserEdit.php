@@ -11,7 +11,7 @@ if (!$DBLINK) {
 }
 
 $uid=$_GET['uid'];
-$EditUserSQL=printf("SELECT `uid`,`username`,`Name`,`Telephone`,`Mobilephone`,`Address`,`Type` FROM `user` WHERE `uid`='%s'",$uid);
+$EditUserSQL=sprintf("SELECT `uid`,`username`,`Name`,`Telephone`,`Mobilephone`,`Address`,`Type` FROM `user` WHERE `uid`='%s'",$uid);
 $UserResult = $DBLINK->query($EditUserSQL);
 $UserData=$UserResult->fetch_array(MYSQL_ASSOC);
 ?>
