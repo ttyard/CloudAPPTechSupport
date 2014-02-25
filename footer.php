@@ -22,8 +22,8 @@
 		</div>
 
 		<footer>
-			<p class="pull-left">&copy; <a href="www.chinac.com" target="_blank">华云数据技术服务有限公司  云应用事业部</a> <?php echo date('Y') ?></p>
-			<p class="pull-right">Powered by: <a href="http://www.aixiuyun.com">Eric Wang</a></p>
+			<p class="pull-left">&copy; <a href="http://usman.it" target="_blank">Muhammad Usman</a> <?php echo date('Y') ?></p>
+			<p class="pull-right">Powered by: <a href="http://usman.it/free-responsive-admin-template">Charisma</a></p>
 		</footer>
 		<?php } ?>
 
@@ -102,5 +102,6 @@
 	<script src="js/jquery.history.js"></script>
 	<!-- application script for Charisma demo -->
 	<script src="js/charisma.js"></script>
+	
 </body>
 </html>

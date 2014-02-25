@@ -1,4 +1,19 @@
-<?php include('include/header.php'); ?>
+<?php  
+
+include('include/header.php');
+include 'include/db_mysql.class.php';
+include 'include/config.inc.php';
+
+$DBLINK = new mysqli(DBHOST, DBUSER, DBPW, DBNAME, DBPORT);
+$DBLINK->set_charset(DBCHARSET);
+
+if (!$DBLINK) {
+	die("数据库连接失败！".$DBLINK->connect_error);
+}
+
+
+
+?>
 			<div>
 				<ul class="breadcrumb">
 					<li>

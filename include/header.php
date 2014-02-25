@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
-<head>
-	<!--
-		Charisma v1.0.0
-
-		Copyright 2012 Muhammad Usman
-		Licensed under the Apache License v2.0
-		http://www.apache.org/licenses/LICENSE-2.0
-
-		http://usman.it
-		http://twitter.com/halalit_usman
-	-->
+<head>	
 	<meta charset="utf-8">
 	<title>云应用技术支持统计系统</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -126,20 +116,9 @@
 					<ul class="nav nav-tabs nav-stacked main-menu">
 						<li class="nav-header hidden-tablet">管理菜单</li>
 						<li><a class="ajax-link" href="index.php"><i class="icon-home"></i><span class="hidden-tablet"> 首页</span></a></li>
+						<li><a class="ajax-link" href="user.php"><i class="icon-eye-open"></i><span class="hidden-tablet"> 系统用户管理</span></a></li>
+						<li><a class="ajax-link" href="customer.php"><i class="icon-eye-open"></i><span class="hidden-tablet"> 客户信息管理</span></a></li>
 						<li><a class="ajax-link" href="repairsrecord.php"><i class="icon-eye-open"></i><span class="hidden-tablet"> 客户报修</span></a></li>
-						<li><a class="ajax-link" href="form.html"><i class="icon-edit"></i><span class="hidden-tablet"> Forms</span></a></li>
-						<li><a class="ajax-link" href="chart.html"><i class="icon-list-alt"></i><span class="hidden-tablet"> Charts</span></a></li>
-						<li><a class="ajax-link" href="typography.html"><i class="icon-font"></i><span class="hidden-tablet"> Typography</span></a></li>
-						<li><a class="ajax-link" href="gallery.html"><i class="icon-picture"></i><span class="hidden-tablet"> Gallery</span></a></li>
-						<li class="nav-header hidden-tablet">Sample Section</li>
-						<li><a class="ajax-link" href="table.html"><i class="icon-align-justify"></i><span class="hidden-tablet"> Tables</span></a></li>
-						<li><a class="ajax-link" href="calendar.html"><i class="icon-calendar"></i><span class="hidden-tablet"> Calendar</span></a></li>
-						<li><a class="ajax-link" href="grid.html"><i class="icon-th"></i><span class="hidden-tablet"> Grid</span></a></li>
-						<li><a class="ajax-link" href="file-manager.html"><i class="icon-folder-open"></i><span class="hidden-tablet"> File Manager</span></a></li>
-						<li><a href="tour.html"><i class="icon-globe"></i><span class="hidden-tablet"> Tour</span></a></li>
-						<li><a class="ajax-link" href="icon.html"><i class="icon-star"></i><span class="hidden-tablet"> Icons</span></a></li>
-						<li><a href="error.html"><i class="icon-ban-circle"></i><span class="hidden-tablet"> Error Page</span></a></li>
-						<li><a href="login.html"><i class="icon-lock"></i><span class="hidden-tablet"> Login Page</span></a></li>
 					</ul>
 					<label id="for-is-ajax" class="hidden-tablet" for="is-ajax"><input id="is-ajax" type="checkbox"> Ajax on menu</label>
 				</div><!--/.well -->

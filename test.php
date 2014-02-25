@@ -49,49 +49,79 @@
 
 // 	}
 
-	$AcceptNameResult=$DBLINK->query('SELECT opt_uid,name FROM optusers');
-	//$ANaleROW=$AcceptNameResult->fetch_array(MYSQL_ASSOC);
+// 	$AcceptNameResult=$DBLINK->query('SELECT opt_uid,name FROM optusers');
+// 	//$ANaleROW=$AcceptNameResult->fetch_array(MYSQL_ASSOC);
 	
-	while ($ANaleROW=$AcceptNameResult->fetch_array(MYSQL_ASSOC)) {
-        foreach ($ANaleROW as $key => $value) {
-			echo "$key".'='."$value";
-			echo "<br/>";     	
+// 	while ($ANaleROW=$AcceptNameResult->fetch_array(MYSQL_ASSOC)) {
+//         foreach ($ANaleROW as $key => $value) {
+// 			echo "$key".'='."$value";
+// 			echo "<br/>";     	
 
-        }
+//         }
 
 	
-	}
-	$AcceptNameResult->free();
+// 	}
+// 	$AcceptNameResult->free();
 	
 	
-	echo "<hr>";
+// 	echo "<hr>";
 	
-	//$CustomerBaseInfoSQL=$DBLINK->query('SELECT cid,CompanyName FROM customerbaseinformation');
+// 	//$CustomerBaseInfoSQL=$DBLINK->query('SELECT cid,CompanyName FROM customerbaseinformation');
 	
-	$CustomerNameResult = $DBLINK->query('SELECT cid,CompanyName FROM customerbaseinformation');
+// 	$CustomerNameResult = $DBLINK->query('SELECT cid,CompanyName FROM customerbaseinformation');
 	
-	?>
-	 <select id="selectError" data-rel="chosen">
+// 	?>
+<!-- 	 <select id="selectError" data-rel="chosen"> -->
 		 <?php 
-		while ($CNROW=$CustomerNameResult->fetch_array(MYSQL_ASSOC)) {
+// 		while ($CNROW=$CustomerNameResult->fetch_array(MYSQL_ASSOC)) {
 			 
-			echo '<option value='.$CNROW[cid].'>'.$CNROW[CompanyName].'</option>';
-		   }
-		?>
+// 			echo '<option value='.$CNROW[cid].'>'.$CNROW[CompanyName].'</option>';
+// 		   }
+// 		?>
 	
-	</select>
+<!-- 	</select> -->
 	<?php 
 	
-	$t1=$CustomerNameResult->fetch_array(MYSQL_ASSOC);
-	print_r($t1);	
+// 	$t1=$CustomerNameResult->fetch_array(MYSQL_ASSOC);
+// 	print_r($t1);	
 	
-	$CustomerNameResult->free();
-	
-	
+// 	$CustomerNameResult->free();
 	
 	
 	
 	
+	
+	
+	$UserResult = $DBLINK->query('SELECT uid,username,Name,Telephone,Mobilephone,Address,Type FROM user');
+	$TSTResult=$UserResult->fetch_array(MYSQL_ASSOC);
+
+	while ($TSTResult) {
+
+		print_r($TSTResult);
+		echo $TSTResult['uid'];
+		break;
+	}
+	
+	
+// 	while ($UROW=$UserResult->fetch_array(MYSQL_ASSOC)) {
+// 		sprintf("<tr>
+// 												<td>%s</td>
+// 												<td>%s</td>
+// 												<td>%s</td>
+// 												<td>%s</td>
+// 												<td>%s</td>
+// 												<td>%s</td>
+// 												<td class=\"center\">
+// 													<a class=\"btn btn-info\" href=\"userEdit.php?%s\">
+// 													    <i class=\"icon-edit icon-white\"></i> 编辑</a>
+// 													<a class=\"btn btn-danger\" href=\"userEdit.php?%s\">
+// 														<i class=\"icon-trash icon-white\"></i>删除</a>
+// 												</td></tr>",$UROW[username],$UROW[Name],$UROW[Telephone],$UROW[Mobilephone],$UROW[Address],$UROW[Type],$UROW[uid],$UROW[uid]);
+// 	}
+	
+	
+	
+	$UserResult->free();
 	$DBLINK->close();
 	
 	?>

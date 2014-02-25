@@ -49,7 +49,7 @@
 						</div>
 					</div>
 					<div class="box-content">
-						<form class="form-horizontal" method="post">
+						<form class="form-horizontal" method="post" action="rs_insert_process.php">
 							<fieldset>
 							<div class="control-group">
 								<label class="control-label">工单编号</label>
@@ -61,7 +61,7 @@
 							 <div class="control-group">
 								<label class="control-label" for="selectError">客户名称</label>
 								<div class="controls">
-									  <select id="selectError" data-rel="chosen">
+									  <select id="selectError" data-rel="chosen" name="CustomerID">
 										  <?php 
 										  
 											  while ($CNROW=$CustomerNameResult->fetch_array(MYSQL_ASSOC)) {
@@ -75,7 +75,7 @@
 							 <div class="control-group">
 								<label class="control-label" for="selectError3">受理人</label>
 								<div class="controls">
-								  <select id="selectError3">
+								  <select id="selectError3" name="OPTUID">
 										<?php 
 										  
 											  while ($ACROW=$AcceptNameResult->fetch_array(MYSQL_ASSOC)) {
@@ -91,14 +91,14 @@
 							  <div class="control-group">
 							 	 <label class="control-label" for="date01">受理日期</label>
 								  <div class="controls">
-									<input type="text" class="input-xlarge datepicker" id="date01" value="02/16/12">
+									<input type="text" class="input-xlarge datepicker" id="date01" value="02/16/12" name="AcceptDateTime">
 								  </div>
 							  </div>
 							  
 							  <div class="control-group">
 								<label class="control-label" for="selectError3">故障分类</label>
 								<div class="controls">
-								  <select id="selectError3">
+								  <select id="selectError3" name="QCID">
 										<?php 										  
 											  while ($QCROW=$QuestionCategoryResult->fetch_array(MYSQL_ASSOC)) {
 											      echo '<option value='.$QCROW[qc_id].'>'.$QCROW[qc_name].'</option>';
@@ -112,7 +112,7 @@
 								<label class="control-label" for="appendedPrependedInput">主机IP地址</label>
 								<div class="controls">
 								  <div class="input-prepend input-append">
-									<input id="appendedPrependedInput" size="16" type="text"><span class="add-on">IPv4</span>
+									<input id="appendedPrependedInput" size="16" type="text" name="HostIP"><span class="add-on">IPv4</span>
 								  </div>
 								</div>
 							  </div>
@@ -120,42 +120,10 @@
 							<div class="control-group">
 							  <label class="control-label" for="textarea2">故障描述</label>
 							  <div class="controls">
-								<textarea class="cleditor" id="textarea2" rows="3"></textarea>
+								<textarea class="cleditor" id="textarea2" rows="3" name="Description"></textarea>
 							  </div>
 							</div>
-							
-							  <div class="control-group">
-								<label class="control-label" for="selectError1">Multiple Select / Tags</label>
-								<div class="controls">
-								  <select id="selectError1" multiple data-rel="chosen">
-									<option>Option 1</option>
-									<option selected>Option 2</option>
-									<option>Option 3</option>
-									<option>Option 4</option>
-									<option>Option 5</option>
-								  </select>
-								</div>
-							  </div>
-							  <div class="control-group">
-								<label class="control-label" for="selectError2">Group Select</label>
-								<div class="controls">
-									<select data-placeholder="Your Favorite Football Team" id="selectError2" data-rel="chosen">
-										<option value=""></option>
-										<optgroup label="NFC EAST">
-										  <option>Dallas Cowboys</option>
-										  <option>New York Giants</option>
-										  <option>Philadelphia Eagles</option>
-										  <option>Washington Redskins</option>
-										</optgroup>
-										<optgroup label="NFC NORTH">
-										  <option>Chicago Bears</option>
-										  <option>Detroit Lions</option>
-										  <option>Green Bay Packers</option>
-										  <option>Minnesota Vikings</option>
-										</optgroup>										
-								  </select>
-								</div>
-							  </div>
+
 							  
 							  <div class="form-actions">
 								<button type="submit" class="btn btn-primary">提交问题</button>
