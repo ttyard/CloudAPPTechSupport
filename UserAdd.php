@@ -25,7 +25,7 @@ $UserData=$UserResult->fetch_array(MYSQL_ASSOC);
 			<a href="user.php">用户管理</a><span class="divider">/</span> 
 		</li>
 		<li>
-			<a href="#">编辑</a><span class="divider"></span> 
+			<a href="#">新增</a><span class="divider"></span> 
 		</li>
 	</ul>
 </div>
