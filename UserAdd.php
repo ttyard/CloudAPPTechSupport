@@ -1,19 +1,7 @@
 <?php
+
 include('include/header.php');
-include 'include/db_mysql.class.php';
-include 'include/config.inc.php';
 
-$DBLINK = new mysqli(DBHOST, DBUSER, DBPW, DBNAME, DBPORT);
-$DBLINK->set_charset(DBCHARSET);
-
-if (!$DBLINK) {
-	die("数据库连接失败！".$DBLINK->connect_error);
-}
-
-$uid=$_GET['uid'];
-$EditUserSQL=sprintf("SELECT `uid`,`username`,`Name`,`Telephone`,`Mobilephone`,`Address`,`Type` FROM `user` WHERE `uid`='%s'",$uid);
-$UserResult = $DBLINK->query($EditUserSQL);
-$UserData=$UserResult->fetch_array(MYSQL_ASSOC);
 ?>
 
 <div>
@@ -30,7 +18,6 @@ $UserData=$UserResult->fetch_array(MYSQL_ASSOC);
 	</ul>
 </div>
 
-
 <div class="row-fluid sortable">
 	<div class="box span6">
 		<div class="box-header well" data-original-title>
@@ -42,27 +29,26 @@ $UserData=$UserResult->fetch_array(MYSQL_ASSOC);
 			</div>
 		</div>
 		<div class="box-content">
-			<form class="form-horizontal" method="post" action="UserEditProcess.php">
+			<form class="form-horizontal" method="post" action="UserManagerProcess.php">
 				<fieldset>
 				<div class="control-group">
 					<label class="control-label">用户名</label>
 					<div class="controls">
-					  <span class="input-xlarge uneditable-input"><?php echo $UserData['username']; ?></span>
+					 	<input class="input-xlarge focused" id="focusedInput" type="text" name="username" value="">
 					</div>
 				  </div>
 				  
 				 <div class="control-group">
 					<label class="control-label" for="focusedInput">用户姓名</label>
 					<div class="controls">
-					  <input type="hidden" name="uid" value="<?php echo $uid; ?>">
-					  <input class="input-xlarge focused" id="focusedInput" type="text" name="Name" value="<?php echo $UserData['Name']; ?>">
+					    <input class="input-xlarge focused" id="focusedInput" type="text" name="Name" value="">
 					</div>
 				  </div>
 				  
 				  <div class="control-group">
 					<label class="control-label" for="focusedInput">联系电话</label>
 					<div class="controls">
-					  <input class="input-xlarge focused" id="focusedInput" type="text"  name="Telephone" value="<?php echo $UserData['Telephone'];?>">
+					  <input class="input-xlarge focused" id="focusedInput" type="text"  name="Telephone" value="">
 					</div>
 				  </div>
 				  
@@ -70,17 +56,16 @@ $UserData=$UserResult->fetch_array(MYSQL_ASSOC);
 				  <div class="control-group">
 					<label class="control-label" for="focusedInput">手机号码</label>
 					<div class="controls">
-					  <input class="input-xlarge focused" id="focusedInput" type="text" name="Mobilephone" value="<?php echo $UserData['Mobilephone'];?>">
+					  <input class="input-xlarge focused" id="focusedInput" type="text" name="Mobilephone" value="">
 					</div>
 				  </div>
 				  
 				  <div class="control-group">
 					<label class="control-label" for="focusedInput">通讯地址</label>
 					<div class="controls">
-					  <input class="input-xlarge focused" id="focusedInput" type="text" name="Address" value="<?php echo $UserData['Address'];?>">
+					  <input class="input-xlarge focused" id="focusedInput" type="text" name="Address" value="">
 					</div>
-				  </div>
-				  
+				  </div>				  
 				 <div class="control-group">
 					<label class="control-label" for="selectError3">受理人</label>
 					<div class="controls">
@@ -95,7 +80,7 @@ $UserData=$UserResult->fetch_array(MYSQL_ASSOC);
 				  </div>
 				  
 				  <div class="form-actions">
-					<button type="submit" class="btn btn-primary">提交</button>
+					<button type="submit" class="btn btn-primary">新增</button>
 					<button class="btn">取消</button>
 				  </div>
 				</fieldset>
