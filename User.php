@@ -10,7 +10,7 @@ if (!$DBLINK) {
 	die("数据库连接失败！".$DBLINK->connect_error);
 }
 
-$UserResult = $DBLINK->query('SELECT `uid`,`username`,`Name`,`Telephone`,`Mobilephone`,`Address`,`Type` FROM `user`');
+$UserResult = $DBLINK->query('SELECT `uid`,`username`,`Name`,`Telephone`,`Mobilephone`,`Address`,`Type` FROM `User`');
 
 
 ?>

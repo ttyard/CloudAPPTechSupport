@@ -118,7 +118,9 @@
 						<li><a class="ajax-link" href="index.php"><i class="icon-home"></i><span class="hidden-tablet"> 首页</span></a></li>
 						<li><a class="ajax-link" href="user.php"><i class="icon-eye-open"></i><span class="hidden-tablet"> 系统用户管理</span></a></li>
 						<li><a class="ajax-link" href="customer.php"><i class="icon-eye-open"></i><span class="hidden-tablet"> 客户信息管理</span></a></li>
+						<li><a class="ajax-link" href="Host.php"><i class="icon-eye-open"></i><span class="hidden-tablet"> 云主机管理</span></a></li>
 						<li><a class="ajax-link" href="repairsrecord.php"><i class="icon-eye-open"></i><span class="hidden-tablet"> 客户报修</span></a></li>
+						
 					</ul>
 					<label id="for-is-ajax" class="hidden-tablet" for="is-ajax"><input id="is-ajax" type="checkbox"> Ajax on menu</label>
 				</div><!--/.well -->
