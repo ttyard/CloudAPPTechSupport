@@ -1,127 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>	
+	<meta charset="utf-8">
+	<title>云应用技术支持统计系统</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
+	<meta name="author" content="Muhammad Usman">
+
+	<!-- The styles -->
+	<link id="bs-css" href="css/bootstrap-cerulean.css" rel="stylesheet">
+	<style type="text/css">
+	  body {
+		padding-bottom: 40px;
+	  }
+	  .sidebar-nav {
+		padding: 9px 0;
+	  }
+	</style>
+	<link href="css/bootstrap-responsive.css" rel="stylesheet">
+	<link href="css/charisma-app.css" rel="stylesheet">
+	<link href="css/jquery-ui-1.8.21.custom.css" rel="stylesheet">
+	<link href='css/fullcalendar.css' rel='stylesheet'>
+	<link href='css/fullcalendar.print.css' rel='stylesheet'  media='print'>
+	<link href='css/chosen.css' rel='stylesheet'>
+	<link href='css/uniform.default.css' rel='stylesheet'>
+	<link href='css/colorbox.css' rel='stylesheet'>
+	<link href='css/jquery.cleditor.css' rel='stylesheet'>
+	<link href='css/jquery.noty.css' rel='stylesheet'>
+	<link href='css/noty_theme_default.css' rel='stylesheet'>
+	<link href='css/elfinder.min.css' rel='stylesheet'>
+	<link href='css/elfinder.theme.css' rel='stylesheet'>
+	<link href='css/jquery.iphone.toggle.css' rel='stylesheet'>
+	<link href='css/opa-icons.css' rel='stylesheet'>
+	<link href='css/uploadify.css' rel='stylesheet'>
+
+	<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- The fav icon -->
+	<link rel="shortcut icon" href="img/favicon.ico">
+		
+</head>
+
+<form action="test_action.php" method="POST">
+  <input data-no-uniform="true" type="checkbox" class="iphone-toggle" name="OpenFlag">
+
+  <input type="submit" value="Submit" />
+</form>
+
+
+
 <?php 
 
-	include 'include/config.inc.php';	
-	
-// 	$DBLink = mysqli_connect(DBHOST, DBUSER, DBPW, DBNAME, 3306);
-	
-// 	/* check connection */
-// 	if (mysqli_connect_errno()) {
-// 	    printf("Connect failed: %s\n", mysqli_connect_error());
-// 	    exit();
-// 	}
-	
-// 	mysqli_set_charset($DBLink, "utf8");
-// // 	mysql_select_db(DBNAME);
-// // 	mysql_set_charset(DBCHARSET);
 
-	
-//     $result= mysqli_query($DBLink, 'SELECT opt_uid,name FROM optusers');
-    
-//     while ($row= mysqli_fetch_array($result)) {
-    	
-	    ?> 
-<!-- 	<tr>  
-	<td align="center" height="19"><?php echo $row["opt_uid"];?></td> 
-	<td align="center"><?php echo $row["name"];?></td> 
-
-	</tr>  -->
-	
-	<?php 
-//     }
-
-//     mysqli_free_result($result);
-//     mysqli_close($DBLink);
-    
-	$DBLINK = new mysqli(DBHOST, DBUSER, DBPW, DBNAME, DBPORT);
-	
-	if (!$DBLINK) {
-		die("数据库连接失败！".$DBLINK->connect_error);
-	}
-	
-	$DBLINK->set_charset(DBCHARSET);
-// 	$result = $DBLINK->query('SELECT opt_uid,name FROM optusers');
-	
-// 	while($row=$result->fetch_row())  {
-// 		foreach ($row as $key =>$val) {
-// 			echo '--'.$val;
-// 		}
-// 				echo "\n";
-
-// 	}
-
-// 	$AcceptNameResult=$DBLINK->query('SELECT opt_uid,name FROM optusers');
-// 	//$ANaleROW=$AcceptNameResult->fetch_array(MYSQL_ASSOC);
-	
-// 	while ($ANaleROW=$AcceptNameResult->fetch_array(MYSQL_ASSOC)) {
-//         foreach ($ANaleROW as $key => $value) {
-// 			echo "$key".'='."$value";
-// 			echo "<br/>";     	
-
-//         }
-
-	
-// 	}
-// 	$AcceptNameResult->free();
-	
-	
-// 	echo "<hr>";
-	
-// 	//$CustomerBaseInfoSQL=$DBLINK->query('SELECT cid,CompanyName FROM customerbaseinformation');
-	
-// 	$CustomerNameResult = $DBLINK->query('SELECT cid,CompanyName FROM customerbaseinformation');
-	
-// 	?>
-<!-- 	 <select id="selectError" data-rel="chosen"> -->
-		 <?php 
-// 		while ($CNROW=$CustomerNameResult->fetch_array(MYSQL_ASSOC)) {
-			 
-// 			echo '<option value='.$CNROW[cid].'>'.$CNROW[CompanyName].'</option>';
-// 		   }
-// 		?>
-	
-<!-- 	</select> -->
-	<?php 
-	
-// 	$t1=$CustomerNameResult->fetch_array(MYSQL_ASSOC);
-// 	print_r($t1);	
-	
-// 	$CustomerNameResult->free();
-	
-	
-	
-	
-	
-	
-	$UserResult = $DBLINK->query('SELECT uid,username,Name,Telephone,Mobilephone,Address,Type FROM user');
-	$TSTResult=$UserResult->fetch_array(MYSQL_ASSOC);
-
-	while ($TSTResult) {
-
-		print_r($TSTResult);
-		echo $TSTResult['uid'];
-		break;
-	}
-	
-	
-// 	while ($UROW=$UserResult->fetch_array(MYSQL_ASSOC)) {
-// 		sprintf("<tr>
-// 												<td>%s</td>
-// 												<td>%s</td>
-// 												<td>%s</td>
-// 												<td>%s</td>
-// 												<td>%s</td>
-// 												<td>%s</td>
-// 												<td class=\"center\">
-// 													<a class=\"btn btn-info\" href=\"userEdit.php?%s\">
-// 													    <i class=\"icon-edit icon-white\"></i> 编辑</a>
-// 													<a class=\"btn btn-danger\" href=\"userEdit.php?%s\">
-// 														<i class=\"icon-trash icon-white\"></i>删除</a>
-// 												</td></tr>",$UROW[username],$UROW[Name],$UROW[Telephone],$UROW[Mobilephone],$UROW[Address],$UROW[Type],$UROW[uid],$UROW[uid]);
-// 	}
-	
-	
-	
-	$UserResult->free();
-	$DBLINK->close();
-	
-	?>
+include('footer.php'); 
+?>	

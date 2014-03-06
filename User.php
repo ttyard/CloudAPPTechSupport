@@ -7,10 +7,11 @@ $DBLINK = new mysqli(DBHOST, DBUSER, DBPW, DBNAME, DBPORT);
 $DBLINK->set_charset(DBCHARSET);
 
 if (!$DBLINK) {
-	die("数据库连接失败！".$DBLINK->connect_error);
+	die("数据库连接失败！".$DBLINK->connect_error());
 }
 
-$UserResult = $DBLINK->query('SELECT `uid`,`username`,`Name`,`Telephone`,`Mobilephone`,`Address`,`Type` FROM `User`');
+$USQL=sprintf("SELECT `uid`,`Name`,`Telephone`,`Mobilephone`,`Address`,`Type` FROM `User`");
+$UserResult = $DBLINK->query($USQL);
 
 
 ?>
@@ -40,8 +41,7 @@ $UserResult = $DBLINK->query('SELECT `uid`,`username`,`Name`,`Telephone`,`Mobile
 						<table class="table table-striped table-bordered bootstrap-datatable datatable">
 						  <thead>
 							  <tr>
-								  <th>用户名</th>
-								  <th>用户信息</th>
+								  <th>用户姓名</th>
 								  <th>联系电话</th>
 								  <th>手机</th>
 								  <th>地址</th>
@@ -54,8 +54,7 @@ $UserResult = $DBLINK->query('SELECT `uid`,`username`,`Name`,`Telephone`,`Mobile
 						  
 							  while ($UROW=$UserResult->fetch_array(MYSQL_ASSOC)) {
  
-								printf("<tr>
-											<td>%s</td>
+								printf("<tr>								            
 											<td>%s</td>
 											<td>%s</td>
 											<td>%s</td>
@@ -66,7 +65,7 @@ $UserResult = $DBLINK->query('SELECT `uid`,`username`,`Name`,`Telephone`,`Mobile
 												    <i class=\"icon-edit icon-white\"></i> 编辑</a>
 												<a class=\"btn btn-danger\" href=\"UserEdit.php?uid=%s\">
 													<i class=\"icon-trash icon-white\"></i>删除</a>
-											</td></tr>",$UROW['username'],$UROW['Name'],$UROW['Telephone'],$UROW['Mobilephone'],$UROW['Address'],$UROW['Type'],$UROW['uid'],$UROW['uid']);							  	
+											</td></tr>",$UROW['Name'],$UROW['Telephone'],$UROW['Mobilephone'],$UROW['Address'],$UROW['Type'],$UROW['uid'],$UROW['uid']);							  	
 						  	
 							  }
 						  
