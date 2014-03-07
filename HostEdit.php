@@ -8,6 +8,9 @@ $DBLINK->set_charset(DBCHARSET);
 if (!$DBLINK) {
 	die("数据库连接失败！".$DBLINK->connect_error);
 }
+
+$hid=$_GET['hid'];
+
 //客户信息
 $CustomerInfoSQL="SELECT cid,customer_name FROM `customerbaseinformation`";
 $CustomerInfoResult=$DBLINK->query($CustomerInfoSQL);
@@ -25,21 +28,16 @@ $HostNameSQL="SELECT `hid` FROM `cloudhost_information` ORDER BY `hid` DESC LIMI
 $HostNameResult=$DBLINK->query($HostNameSQL);
 $HostNameOld=$HostNameResult->fetch_array(MYSQL_ASSOC);
 
-if ($HostNameOld['hid']<100 and $HostNameOld['hid']>10){
-	++$HostNameOld['hid'];
-	$HostName='CABU-00'.$HostNameOld['hid'];
-	
-} else if ($HostNameOld['hid']>100 and $HostNameOld['hid']<1000) {
-	++$HostNameOld['hid'];
-	$HostName='CABU-0'.$HostNameOld['hid'];
-}else {
-	++$HostNameOld['hid'];
-	$HostName='CABU-'.$HostNameOld['hid'];
-}
+//获取主机信息
+$HostSQL = sprintf("SELECT `chi`.`hid`,`chi`.`HostName`,`chi`.`customerID`,`chi`.`IP`,`chi`.`OS`,`chi`.`CPU`,`chi`.`RAM`,`chi`.`HDD`,`chi`.`BW`,`chi`.`DB`,
+						   `chi`.`FTP`,`chi`.`ApplyUser`,`chi`.`Responsiblepeople`,`chi`.`StartTime`,`chi`.`EndTime`,`chi`.`SubjectionAccount`,`chi`.`OpenFlag`,
+		 				   `chi`.`HostType`,`chi`.`IDC`,`chi`.`EX1` FROM `cloudhost_information` AS `chi`,`customerbaseinformation` AS `cbi` WHERE (`chi`.`hid`= '%d')",$hid);
+
+$HostRecodeResult = $DBLINK->query($HostSQL);
+$HostRecode=$HostRecodeResult->fetch_array(MYSQL_ASSOC);
 
 //定义时期和时间 试用一般为3天
 $EndTimecycle=time() + (3 * 24 * 60 * 60);
-
 
 ?>
 
@@ -68,15 +66,15 @@ $EndTimecycle=time() + (3 * 24 * 60 * 60);
 			</div>
 		</div>
 		<div class="box-content">
-			<form class="form-horizontal" method="post" action="HostManagerProcess.php?action=Add">
+			<form class="form-horizontal" method="post" action="HostManagerProcess.php?action=Edit&hid=<?php echo $HostRecode['hid'];?>">
 				<fieldset>
 
 				  <div class="control-group">
 						<label class="control-label" for="disabledInput">主机名称</label>
 						<div class="controls">
-						 <input class="input-xlarge disabled" id="disabledInput" type="text" placeholder="<?php echo $HostName;?>" disabled="">
-						 <input type="hidden" name="HostName" value="<?php echo $HostName;?>" /> 
-						 
+						 <input class="input-xlarge disabled" id="disabledInput" type="text" placeholder="<?php echo $HostRecode['HostName'];?>" disabled="">
+						 <input type="hidden" name="hid" value="<?php echo $HostRecode['hid'];?>" /> 
+						 <input type="hidden" name="HostName" value="<?php echo $HostRecode['HostName'];?>" /> 
 						</div>
 				  </div>
 				  
@@ -86,7 +84,12 @@ $EndTimecycle=time() + (3 * 24 * 60 * 60);
 						<select id="selectError" data-rel="chosen" name="CustomerID" style="width: 220px;">
 						<?php 
 						while ($CustomerROW=$CustomerInfoResult->fetch_array(MYSQL_ASSOC)) {
-							printf("<option value=\"%d\">%s</option>",$CustomerROW['cid'],$CustomerROW['customer_name']); 
+
+							if ($HostRecode['customerID']==$CustomerROW['cid']) {
+								printf("<option value=\"%d\" selected=\"selected\">%s</option>",$CustomerROW['cid'],$CustomerROW['customer_name']);
+							} else {
+								printf("<option value=\"%d\">%s</option>",$CustomerROW['cid'],$CustomerROW['customer_name']);
+							} 
 						}
 						?>
 						</select>
@@ -97,7 +100,7 @@ $EndTimecycle=time() + (3 * 24 * 60 * 60);
 						<label class="control-label" for="appendedPrependedInput">IP</label>
 						<div class="controls">
 						  <div class="input-prepend input-append">
-								<input id="appendedPrependedInput" size="16" type="text" Name="IP"><span class="add-on">IPv4</span>
+								<input id="appendedPrependedInput" size="16" type="text" Name="IP" value="<?php echo $HostRecode['IP'];?>" ><span class="add-on">IPv4</span>
 						  </div>
 						</div>
 				  </div>
@@ -105,11 +108,14 @@ $EndTimecycle=time() + (3 * 24 * 60 * 60);
 				  <div class="control-group">
 					<label class="control-label" for="selectError3">操作系统</label>
 					<div class="controls">
-					  <select id="selectError3" name="OS">
+					  <select id="selectError3" name="OS">					  
 						<?php 
 							for ($i = 0; $i < count($HostOSA); $i++) {
+								if($HostRecode['OS']==$HostOSA[$i]){
+									echo "<option value=\"$HostOSA[$i]\" selected=\"selected\">$HostOSA[$i]</option>";
+								} else {
 									echo "<option value=\"$HostOSA[$i]\">$HostOSA[$i]</option>";
-
+								}
 							}
 						?>	
 					  </select>
@@ -120,7 +126,7 @@ $EndTimecycle=time() + (3 * 24 * 60 * 60);
 						<label class="control-label" for="appendedInput">中央处理器CPU</label>
 						<div class="controls">
 						  <div class="input-append">
-							<input id="appendedInput" size="16" type="text" Name="CPU"><span class="add-on">核</span>
+							<input id="appendedInput" size="16" type="text" Name="CPU" value="<?php echo $HostRecode['CPU']?>" ><span class="add-on">核</span>
 						  </div>						  
 						</div>
 				  </div>
@@ -129,7 +135,7 @@ $EndTimecycle=time() + (3 * 24 * 60 * 60);
 						<label class="control-label" for="appendedInput">内存</label>
 						<div class="controls">
 						  <div class="input-append">
-							<input id="appendedInput" size="16" type="text" Name="RAM"><span class="add-on">GB</span>
+							<input id="appendedInput" size="16" type="text" Name="RAM" value="<?php echo $HostRecode['RAM']?>"><span class="add-on">GB</span>
 						  </div>						  
 						</div>
 				  </div>
@@ -138,7 +144,7 @@ $EndTimecycle=time() + (3 * 24 * 60 * 60);
 						<label class="control-label" for="appendedInput">硬盘</label>
 						<div class="controls">
 						  <div class="input-append">
-							<input id="appendedInput" size="16" type="text" Name="HDD"><span class="add-on">GB</span>
+							<input id="appendedInput" size="16" type="text" Name="HDD" value="<?php echo $HostRecode['HDD']?>"><span class="add-on">GB</span>
 						  </div>						  
 						</div>
 				  </div>
@@ -147,7 +153,7 @@ $EndTimecycle=time() + (3 * 24 * 60 * 60);
 						<label class="control-label" for="appendedInput">带宽</label>
 						<div class="controls">
 						  <div class="input-append">
-							<input id="appendedInput" size="16" type="text" Name="BW"><span class="add-on">Mbps</span>
+							<input id="appendedInput" size="16" type="text" Name="BW" value="<?php echo $HostRecode['BW']?>"><span class="add-on">Mbps</span>
 						  </div>						  
 						</div>
 				  </div>
@@ -155,14 +161,14 @@ $EndTimecycle=time() + (3 * 24 * 60 * 60);
 				 <div class="control-group">
 					<label class="control-label" for="focusedInput">数据库系统</label>
 					<div class="controls">
-					    <input class="input-xlarge focused" id="focusedInput" type="text" name="DB" value="">
+					    <input class="input-xlarge focused" id="focusedInput" type="text" name="DB" value="<?php echo $HostRecode['DB']?>">
 					</div>
 				  </div>
 				  
 				  <div class="control-group">
 					<label class="control-label" for="focusedInput">FTP</label>
 					<div class="controls">
-					  <input class="input-xlarge focused" id="focusedInput" type="text"  name="FTP" value="">
+					  <input class="input-xlarge focused" id="focusedInput" type="text"  name="FTP" value="<?php echo $HostRecode['FTP']?>">
 					</div>
 				  </div>
 
@@ -171,8 +177,12 @@ $EndTimecycle=time() + (3 * 24 * 60 * 60);
 						<div class="controls">
 						<select id="selectError1" data-rel="chosen" name="ApplyUser" style="width: 110px;">
 						<?php 
-						while ($ResponsiblePeopleROW=$ApplyUserResult->fetch_array(MYSQL_ASSOC)) {
-							printf("<option value=\"%d\">%s</option>",$ResponsiblePeopleROW['uid'],$ResponsiblePeopleROW['Name']); 
+						while ($ApplyUserROW=$ApplyUserResult->fetch_array(MYSQL_ASSOC)) {
+							if($HostRecode['ApplyUser']==$ApplyUserROW['uid']) {
+								printf("<option value=\"%d\" selected=\"selected\">%s</option>",$ApplyUserROW['uid'],$ApplyUserROW['Name']);
+							} else {
+								printf("<option value=\"%d\">%s</option>",$ApplyUserROW['uid'],$ApplyUserROW['Name']);
+							} 
 						}
 						?>
 						</select>
@@ -185,7 +195,12 @@ $EndTimecycle=time() + (3 * 24 * 60 * 60);
 						<select id="selectError2" data-rel="chosen" name="Responsiblepeople"  style="width: 110px;" >
 						<?php 
 						while ($RPROW=$ResponsiblePeopleResult->fetch_array(MYSQL_ASSOC)) {
-							printf("<option value=\"%d\">%s</option>",$RPROW['uid'],$RPROW['Name']); 
+							if($HostRecode['Responsiblepeople']==$RPROW['uid']) {
+								printf("<option value=\"%d\" selected=\"selected\">%s</option>",$RPROW['uid'],$RPROW['Name']);
+							} else  {
+								printf("<option value=\"%d\">%s</option>",$RPROW['uid'],$RPROW['Name']);		
+							} 
+							
 						}
 						?>
 						</select>
@@ -195,13 +210,13 @@ $EndTimecycle=time() + (3 * 24 * 60 * 60);
 		  		  <div class="control-group">
 					  <label class="control-label" for="date01">开通日期</label>
 					  <div class="controls">
-						<input type="text" class="input-xlarge datepicker" id="date01" value="<?php echo Date("Y-m-d H:i:s");?>" name="StartTime">
+						<input type="text" class="input-xlarge datepicker" id="date01" value="<?php echo $HostRecode['StartTime']?>" name="StartTime">
 					  </div>
 				  </div>
 				  <div class="control-group">
 					  <label class="control-label" for="date02">到期日期</label>
 					  <div class="controls">
-						<input type="text" class="input-xlarge datepicker" id="date02" value="<?php echo date('Y-m-d H:i:s', $EndTimecycle);?>" name="EndTime">
+						<input type="text" class="input-xlarge datepicker" id="date02" value="<?php echo $HostRecode['EndTime']?>" name="EndTime">
 					  </div>
 				  </div>
 				  
@@ -209,8 +224,18 @@ $EndTimecycle=time() + (3 * 24 * 60 * 60);
 					  <label class="control-label" for="date01">正式用户</label>
 					  <div class="controls">
 						<!--  <input data-no-uniform="true" type="checkbox" class="iphone-toggle" name="OpenFlag" value="">   -->
-						<label><input name=OpenFlag type="radio" value="1" />是 </label>
-						<label><input name="OpenFlag" type="radio" value="0" />否 </label>
+						<?php 
+						     if ($HostRecode['OpenFlag']==1) {
+						     	echo "<label><input name=\"OpenFlag\" type=\"radio\" checked=\"checked\" value=\"1\" />是 </label>";
+								echo "<label><input name=\"OpenFlag\" type=\"radio\" value=\"0\" />否 </label>";
+						     } elseif ($HostRecode['OpenFlag']==0) {
+								echo "<label><input name=\"OpenFlag\" type=\"radio\" value=\"1\" />是 </label>";
+								echo "<label><input name=\"OpenFlag\" type=\"radio\" checked=\"checked\" value=\"0\" />否 </label>";						     	
+						     } else {
+								echo "<label><input name=\"OpenFlag\" type=\"radio\" value=\"1\" />是 </label>";
+								echo "<label><input name=\"OpenFlag\" type=\"radio\" value=\"0\" />否 </label>";						     	
+						     }
+						?>
 					  </div>
 				  </div>
 				  
@@ -220,9 +245,13 @@ $EndTimecycle=time() + (3 * 24 * 60 * 60);
 						<select id="selectError6" data-rel="chosen" name="HostType" style="width: 110px;">
 						<?php 
 							for ($i = 0; $i < count($HostTypeA); $i++) {
-								echo "<option value=\"$HostTypeA[$i]\">$HostTypeA[$i]型</option>";
+								if($HostRecode['HostType']==$HostTypeA[$i]){
+									echo "<option value=\"$HostTypeA[$i]\" selected=\"selected\">$HostTypeA[$i]型</option>";
+								} else {
+									echo "<option value=\"$HostTypeA[$i]\">$HostTypeA[$i]型</option>";
+								}
 							}
-						?>
+						?>	
 						</select>
 						</div>
 				  </div>
@@ -230,17 +259,28 @@ $EndTimecycle=time() + (3 * 24 * 60 * 60);
 				  <div class="control-group">
 						<label class="control-label" for="selectError">所在机房</label>
 						<div class="controls">
-						<select id="IDC" data-rel="chosen" name="IDC" style="width: 220px;">							
+						<select id="IDC" data-rel="chosen" name="IDC" style="width: 220px;">	
 							<?php 
 								for ($i = 0; $i < count($IDCNameA); $i++) {
-									echo "<option value=\"$IDCNameA[$i]\">$IDCNameA[$i]</option>";
+									if($HostRecode['IDC']==$IDCNameA[$i]){
+										echo "<option value=\"$IDCNameA[$i]\" selected=\"selected\">$IDCNameA[$i]</option>";
+									} else {
+										echo "<option value=\"$IDCNameA[$i]\">$IDCNameA[$i]</option>";
+									}
 								}
 							?>	
 						</select>
 						</div>
 				  </div>
+  				  <div class="control-group">
+					  <label class="control-label" for="textarea2">备注</label>
+					  <div class="controls">
+						<textarea class="cleditor" id="textarea2" rows="3" name="EX1"><?php echo $HostRecode['EX1'];?></textarea>
+					  </div>
+				  </div>
+				  
 				  <div class="form-actions">
-					<button type="submit" class="btn btn-primary">新增</button>
+					<button type="submit" class="btn btn-primary">更新</button>
 					<button class="btn">取消</button>
 				  </div>
 				</fieldset>

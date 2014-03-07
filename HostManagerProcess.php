@@ -12,7 +12,7 @@ if (!$DBLINK) {
 }
 
 $Action=$_GET['action'];
-
+$GetHostID=$_GET['hid'];
 switch ($Action){
 	case Add:
 		
@@ -67,43 +67,84 @@ switch ($Action){
 									,$EndTime,$OpenFlag,$HostType,$IDC);
 		
 		$isINSERT=$DBLINK->query($HostAddSQL);
-	     if ($isINSERT==FALSE)
-	     	echo "新增主机失败";
-		
-		header("Location:Host.php");
+	     if ($isINSERT==1) {
+	     	header("Location:Host.php");
+	     } else {
+	     	echo "<br/>"."新增主机失败";
+	     }		
 		break;
 		
 	case Edit:
-		$Name=trim($_POST['Name']);
-		$Telephone=trim($_POST['Telephone']);
-		$Mobilephone=trim($_POST['Mobilephone']);
-		$Address=trim($_POST['Address']);
-		$Type=trim($_POST['Type']);
-		$uid=trim($_POST['uid']);
+		//$HostName=trim($_POST['HostName']);
+		$CustomerID=trim($_POST['CustomerID']);
+		$IP=trim($_POST['IP']);
+		$OS=trim($_POST['OS']);
+		$CPU=trim($_POST['CPU']);
+		$RAM=trim($_POST['RAM']);
+		$HDD=trim($_POST['HDD']);
+		$BW=trim($_POST['BW']);
+		$DB=trim($_POST['DB']);
+		$FTP=trim($_POST['FTP']);
+		$ApplyUser=trim($_POST['ApplyUser']);
+		$Responsiblepeople=trim($_POST['Responsiblepeople']);
+		//$StartTime=trim($_POST['StartTime']);
+		//$EndTime=trim($_POST['EndTime']);
+		$StartTime=$_POST['StartTime'];
+		$EndTime=$_POST['EndTime'];
+		$OpenFlag=$_POST['OpenFlag'];
+		$HostType=trim($_POST['HostType']);
+		$IDC=trim($_POST['IDC']);
+		$EX1=htmlspecialchars($_POST['EX1']);
+		$EX1= mysql_escape_string($EX1);
+
+		if (!get_magic_quotes_gpc()) {
+			$HostName=addslashes($HostName);
+			$CustomerID=addslashes($CustomerID);
+			$IP=addslashes($IP);
+			$OS=addslashes($OS);
+			$CPU=addslashes($CPU);
+			$RAM=addslashes($RAM);
+			$HDD=addslashes($HDD);
+			$BW=addslashes($BW);
+			$DB=addslashes($DB);
+			$FTP=addslashes($FTP);
+			$ApplyUser=addslashes($ApplyUser);
+			//$StartTime=addslashes($uid);
+			//$EndTime=addslashes($EndTime);
+			$OpenFlag=addslashes($OpenFlag);
+			$HostType=addslashes($HostType);
+			$IDC=addslashes($IDC);
+			$Responsiblepeople=addslashes($Responsiblepeople);
+			$EX1= addslashes($EX1);
+		}
+// 		$HostUpdateSQL=sprintf("UPDATE  `cloudhost_information` SET `customerID`='%d',`IP`='%s',`OS`='%s',`CPU`='%d',`RAM`='%d',`HDD`='%d',`BW`='%d',`DB`='%s',`FTP`='%s',
+// 									`ApplyUser`='%d',`Responsiblepeople`='%d',`StartTime`='%s',`EndTime`='%s',`OpenFlag`='%d',`HostType`='%s',`IDC`='%s' WHERE `hid`='%s'",
+// 				$CustomerID,$IP,$OS,$CPU,$RAM,$HDD,$BW,$DB,$FTP,$ApplyUser,$Responsiblepeople,$StartTime,$EndTime,$OpenFlag,$HostType,$IDC,$GetHostID);
 		
-	    if (!get_magic_quotes_gpc()) {
-	    	$Name=addslashes($Name);
-	    	$Telephone=addslashes($Telephone);
-	    	$Mobilephone=addslashes($Mobilephone);
-	    	$Address=addslashes($Address);
-	    	$Type=addslashes($Type);
-	    	$uid=addslashes($uid);
-	    }
+		$HostUpdateSQL=sprintf("UPDATE  `cloudhost_information` SET `customerID`='%d',`IP`='%s',`OS`='%s',`CPU`='%d',`RAM`='%d',`HDD`='%d',`BW`='%d',`DB`='%s',`FTP`='%s',
+									`ApplyUser`='%d',`Responsiblepeople`='%d',`StartTime`='%s',`EndTime`='%s',`OpenFlag`='%d',`HostType`='%s',`IDC`='%s',`EX1`='%s' WHERE `hid`='%s'",
+									$CustomerID,$IP,$OS,$CPU,$RAM,$HDD,$BW,$DB,$FTP,$ApplyUser,$Responsiblepeople,$StartTime,$EndTime,$OpenFlag,$HostType,$IDC,$EX1,$GetHostID);
 		
-		$UserEditSQL=sprintf("UPDATE `user` set `Name`='%s',`Telephone`='%s',`Mobilephone`='%s',`Address`='%s',`Type`='%s' WHERE `uid`='%s'"
-		                          ,$Name,$Telephone,$Mobilephone,$Address,$Type,$uid);
-		$UpdateUserInfo=$DBLINK->query($UserEditSQL);
-		
-// 		header("Location:user.php");
-		break;
-			
+		$isUpdate=$DBLINK->query($HostUpdateSQL);
+// 	     if ($isINSERT==1) {
+	     	header("Location:Host.php");
+// 	     } else {
+// 	     	echo "<br/>"."云主机信息更新失败！请联系管理员，谢谢。".mysql_error($isUpdate);
+// 	     }	
+	     break;
+	     
 	case Delete:
-		$uid=trim($_POST['uid']);
-		$uid=addslashes($uid);
-		$DeleteSQL=sprintf("UPDATE `user` set `EX1`='FALSE' WHERE `uid`='%s'",$uid);
+		$hid=trim($GetHostID);
+		$hid=addslashes($GetHostID);
+		$DeleteSQL=sprintf("UPDATE `cloudhost_information` set `isDelete`='1' WHERE `hid`='%d'",$hid);
 		$DeleteQuery=$DBLINK->query($DeleteSQL);
-		
-// 		header("Location:user.php");
+		if ($DeleteQuery==1) {
+			header("Location:Host.php?isDelete=success");
+		} else 
+		{
+			echo "<br/>"."云主机删除失败！请联系管理员，谢谢。";
+		}
+ 		
 		break;
 	}
 

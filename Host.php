@@ -9,8 +9,9 @@ $DBLINK->set_charset(DBCHARSET);
 if (!$DBLINK) {
 	die("数据库连接失败！".$DBLINK->connect_error());
 }
+$isDelete=$_GET['isDelete'];
 
-$HostSQL = sprintf('SELECT `chi`.`HostName`,`cbi`.`customer_name`,`chi`.`IP`,`chi`.`OS`,`chi`.`CPU`,`chi`.`RAM`,`chi`.`HDD`,`chi`.`BW`,`u`.`Name`,`chi`.`StartTime`,`chi`.`EndTime`,`chi`.`OpenFlag`,`chi`.`HostType`,`chi`.`IDC` FROM `cloudhost_information` AS `chi`,`customerbaseinformation` AS `cbi`,`user` AS `u` WHERE (`chi`.`customerID`= `cbi`.`cid`) AND (`chi`.`ApplyUser`=`u`.`uid`)');
+$HostSQL = "SELECT `chi`.`hid`,`chi`.`HostName`,`cbi`.`customer_name`,`chi`.`IP`,`chi`.`OS`,`chi`.`CPU`,`chi`.`RAM`,`chi`.`HDD`,`chi`.`BW`,`u`.`Name`,`chi`.`StartTime`,`chi`.`EndTime`,`chi`.`OpenFlag`,`chi`.`HostType`,`chi`.`IDC` FROM `cloudhost_information` AS `chi`,`customerbaseinformation` AS `cbi`,`user` AS `u` WHERE (`chi`.`customerID`= `cbi`.`cid`) AND (`chi`.`ApplyUser`=`u`.`uid`)  AND (`chi`.`isDelete` !=1)";
 $HostResult = $DBLINK->query($HostSQL);
 
 ?>
@@ -84,11 +85,11 @@ $HostResult = $DBLINK->query($HostSQL);
 											<td>华云%s型,%s</td>
 											<td>%s</td>
 											<td class=\"center\">
-		                                        <a class=\"btn btn-success\" href=\"HostManagerProcess.php?action=viewdetail&uid=%s\">
+		                                        <a class=\"btn btn-success\" href=\"HostManagerProcess.php?action=viewdetail&hid=%d\">
 												    <i class=\"icon-zoom-in icon-white\"></i> 查看</a>
-												<a class=\"btn btn-info\" href=\"HostManagerProcess.php?action=edit&uid=%s\">
+												<a class=\"btn btn-info\" href=\"HostEdit.php?hid=%d\">
 												    <i class=\"icon-edit icon-white\"></i> 编辑</a>
-												<a class=\"btn btn-danger\" href=\"HostManagerProcess?action=delete&uid=%s\">
+												<a class=\"btn btn-danger\" href=\"HostManagerProcess.php?action=Delete&hid=%d\">
 													<i class=\"icon-trash icon-white\"></i>删除</a>
 											</td></tr>",$HROW['HostName'],$HROW['customer_name'],$HROW['IP'],$HROW['CPU'],$HROW['RAM'],$HROW['HDD'],$HROW['BW'],$HROW['Name'],$StartTime,$EndTime,$HROW['HostType'],$NOpenflag,$HROW['IDC'],$HROW['hid'],$HROW['hid'],$HROW['hid']);							  	
 						  	
