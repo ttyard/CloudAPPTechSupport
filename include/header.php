@@ -33,6 +33,7 @@
 	<link href='css/jquery.iphone.toggle.css' rel='stylesheet'>
 	<link href='css/opa-icons.css' rel='stylesheet'>
 	<link href='css/uploadify.css' rel='stylesheet'>
+	<link href='css/jquery.datetimepicker.css' rel='stylesheet'>
 
 	<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
 	<!--[if lt IE 9]>
@@ -75,7 +76,7 @@
 						<li><a class="ajax-link" href="User.php"><i class="icon-eye-open"></i><span class="hidden-tablet"> 系统用户管理</span></a></li>
 						<li><a class="ajax-link" href="Customer.php"><i class="icon-eye-open"></i><span class="hidden-tablet"> 客户信息管理</span></a></li>
 						<li><a class="ajax-link" href="Host.php"><i class="icon-eye-open"></i><span class="hidden-tablet"> 云主机管理</span></a></li>
-						<li><a class="ajax-link" href="repairsrecord.php"><i class="icon-eye-open"></i><span class="hidden-tablet"> 客户报修</span></a></li>
+						<li><a class="ajax-link" href="RepairsRecord.php"><i class="icon-eye-open"></i><span class="hidden-tablet"> 客户报修</span></a></li>
 						
 					</ul>
 					<label id="for-is-ajax" class="hidden-tablet" for="is-ajax"><input id="is-ajax" type="checkbox"> Ajax on menu</label>

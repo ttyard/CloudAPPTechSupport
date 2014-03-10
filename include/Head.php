@@ -33,7 +33,6 @@
 	<link href='css/jquery.iphone.toggle.css' rel='stylesheet'>
 	<link href='css/opa-icons.css' rel='stylesheet'>
 	<link href='css/uploadify.css' rel='stylesheet'>
-	<link rel="stylesheet" type="text/css" href="css/jquery.datetimepicker.css"/>
 
 	<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
 	<!--[if lt IE 9]>
@@ -44,28 +43,3 @@
 	<link rel="shortcut icon" href="img/favicon.ico">
 		
 </head>
-<body>
-<form action="test_action.php" method="POST">
-  <input data-no-uniform="true" type="checkbox" class="iphone-toggle" name="OpenFlag">
-	<h3>DateTimePicker</h3>
-	<input type="text" name="datetimepicker" value="" id="datetimepicker" /><br><br>
-	<input type="text" name="test" value="" />
-  <button type="submit" class="btn btn-primary">提交问题</button>
-</form>
-</body>
-</html>
-<script src="js/jquery.js"></script>
-<script src="js/jquery.datetimepicker.js"></script>
-<script>
-$('#datetimepicker').datetimepicker({
-	format:'Y-m-d H:i',
-	step:10
-});
-</script>
-
-
-<?php 
-
-
-include('footer.php'); 
-?>	

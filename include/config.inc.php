@@ -19,3 +19,5 @@ $HostTypeA=array("A","B","C","D","E","F","G","H","I","J","K","L");
 //云主机操作系统
 $HostOSA=array("WIN2003 CN 32Bit","WIN2003 CN 64Bit","WIN2003 EN 32Bit","WIN2008R2 CN 64Bit","WIN2008R2 EN 64Bit","CentoS5.9 32Bit","CentoS5.9 64Bit","CentoS6.4 32Bit","CentoS6.4 64Bit","SUSE11 64Bit");
 
+//报修工单状态
+$RequestRecordState=array("新建","处理中","完成");

@@ -126,11 +126,12 @@ switch ($Action){
 									$CustomerID,$IP,$OS,$CPU,$RAM,$HDD,$BW,$DB,$FTP,$ApplyUser,$Responsiblepeople,$StartTime,$EndTime,$OpenFlag,$HostType,$IDC,$EX1,$GetHostID);
 		
 		$isUpdate=$DBLINK->query($HostUpdateSQL);
-// 	     if ($isINSERT==1) {
+		
+  	     if (!$isINSERT==1) {
 	     	header("Location:Host.php");
-// 	     } else {
-// 	     	echo "<br/>"."云主机信息更新失败！请联系管理员，谢谢。".mysql_error($isUpdate);
-// 	     }	
+  	     } else {
+  	     	echo "<br/>"."云主机信息更新失败！请联系管理员，谢谢。".mysql_error()."\n".mysql_errno();
+  	     }	
 	     break;
 	     
 	case Delete:
@@ -138,7 +139,7 @@ switch ($Action){
 		$hid=addslashes($GetHostID);
 		$DeleteSQL=sprintf("UPDATE `cloudhost_information` set `isDelete`='1' WHERE `hid`='%d'",$hid);
 		$DeleteQuery=$DBLINK->query($DeleteSQL);
-		if ($DeleteQuery==1) {
+		if (!$DeleteQuery==1) {
 			header("Location:Host.php?isDelete=success");
 		} else 
 		{

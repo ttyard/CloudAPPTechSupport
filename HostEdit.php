@@ -210,13 +210,13 @@ $EndTimecycle=time() + (3 * 24 * 60 * 60);
 		  		  <div class="control-group">
 					  <label class="control-label" for="date01">开通日期</label>
 					  <div class="controls">
-						<input type="text" class="input-xlarge datepicker" id="date01" value="<?php echo $HostRecode['StartTime']?>" name="StartTime">
+						<input type="text" class="input-xlarge" id="StartTime" value="<?php echo $HostRecode['StartTime']?>" name="StartTime">
 					  </div>
 				  </div>
 				  <div class="control-group">
 					  <label class="control-label" for="date02">到期日期</label>
 					  <div class="controls">
-						<input type="text" class="input-xlarge datepicker" id="date02" value="<?php echo $HostRecode['EndTime']?>" name="EndTime">
+						<input type="text" class="input-xlarge" id="EndTime" value="<?php echo $HostRecode['EndTime']?>" name="EndTime">
 					  </div>
 				  </div>
 				  
@@ -295,3 +295,13 @@ $EndTimecycle=time() + (3 * 24 * 60 * 60);
 
 include('footer.php'); 
 ?>			
+<script>
+$('#StartTime').datetimepicker({
+	format:'Y-m-d H:i',
+	step:10
+});
+$('#EndTime').datetimepicker({
+	format:'Y-m-d H:i',
+	step:10
+});
+</script>
