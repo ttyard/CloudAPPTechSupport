@@ -12,13 +12,12 @@ if (!$DBLINK) {
 
 
 
-//生成故障处理表 编号`customerequestrecord` crid
-$cridSQL="SELECT `crid` FROM `customerequestrecord` ORDER BY `crid` DESC LIMIT 1";
-$cridResult=$DBLINK->query($cridSQL);
-$ridOld=$cridResult->fetch_array(MYSQL_ASSOC);
-print_r
-$crid=$cridOld['crid'];
-
+echo $RepairsRecordListSQL=sprintf("SELECT `crr`.`crid`,`cbi`.`customer_name`,`chi`.`OpenFlag`,`chi`.`HostType`,`crr`.`hid`,`u`.`Name`,`crr`.`requestime`,`crr`.`IP`,`crr`.`reason`,`p`.`ProcessingMethod`,`crr`.`completetime`,`crr`.`state`
+									FROM `customerequestrecord` AS `crr`,`user` AS `u`,`customerbaseinformation` AS `cbi`,`questioncategory` AS `q` ,`cloudhost_information` AS `chi`,`requestprocess` AS `p`
+									WHERE `crr`.`cid`=`cbi`.`cid` AND `crr`.`uid` = `u`.`uid`  AND `crr`.`qid`=`q`.`qid` AND `crr`.`hid`=`chi`.`hid` AND `crr`.`rpid`=`p`.`rpid`");
+echo '<br/>$RRListResult=';
+echo $RRListResult=$DBLINK->query($RepairsRecordListSQL);
+print_r($RRListResult);
 
 
 ?>
