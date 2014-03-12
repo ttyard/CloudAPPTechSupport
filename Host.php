@@ -11,7 +11,7 @@ if (!$DBLINK) {
 }
 $isDelete=$_GET['isDelete'];
 
-$HostSQL = "SELECT `chi`.`hid`,`chi`.`HostName`,`cbi`.`customer_name`,`chi`.`IP`,`chi`.`OS`,`chi`.`CPU`,`chi`.`RAM`,`chi`.`HDD`,`chi`.`BW`,`u`.`Name`,`chi`.`StartTime`,`chi`.`EndTime`,`chi`.`OpenFlag`,`chi`.`HostType`,`chi`.`IDC` FROM `cloudhost_information` AS `chi`,`customerbaseinformation` AS `cbi`,`user` AS `u` WHERE (`chi`.`customerID`= `cbi`.`cid`) AND (`chi`.`ApplyUser`=`u`.`uid`)  AND (`chi`.`isDelete` !=1)";
+$HostSQL = "SELECT `chi`.`hid`,`chi`.`HostName`,`cbi`.`customer_name`,`chi`.`IP`,`chi`.`OS`,`chi`.`CPU`,`chi`.`RAM`,`chi`.`HDD`,`chi`.`BW`,`u`.`Name`,`chi`.`StartTime`,`chi`.`EndTime`,`chi`.`OpenFlag`,`chi`.`HostType`,`chi`.`IDC` FROM `cloudhost_information` AS `chi`,`customerbaseinformation` AS `cbi`,`user` AS `u` WHERE (`chi`.`customerID`= `cbi`.`cid`) AND (`chi`.`ApplyUser`=`u`.`uid`)  AND (`chi`.`isDelete` !=1) ORDER BY `chi`.`HostName` DESC";
 $HostResult = $DBLINK->query($HostSQL);
 
 ?>

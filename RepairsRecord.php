@@ -45,11 +45,12 @@ $RepairsRecordListSQL="SELECT `crr`.`crid`,`cbi`.`customer_name`,`chi`.`OpenFlag
 					</div>
 					<div class="box-content">
 					<div class="INSERT" style="float:left;margin-right:100px;" >
-					      <a class="btn btn-small btn-primary" href="RepairsRecodAdd.php">生成报修工单</a>
+					      <a class="btn btn-small btn-primary" href="RepairsRecordAdd.php">生成报修工单</a>
 					</div>  
 						<table class="table table-striped table-bordered bootstrap-datatable datatable">
 						  <thead>
 							  <tr>
+							  	  <th>序号</th>
 								  <th>客户名称</th>
 								  <th>主机类型</th>
 								  <th>受理人</th>
@@ -105,6 +106,7 @@ $RepairsRecordListSQL="SELECT `crr`.`crid`,`cbi`.`customer_name`,`chi`.`OpenFlag
 								$completetime=substr($RRLROW['completetime'],0,16);
 								
 								printf("<tr>
+											<td>%d</td>
 											<td>%s</td>
 											<td>华云%s型&nbsp;&nbsp;<span class=\"%s\">%s</span></td>
 											<td>%s</td>
@@ -116,9 +118,9 @@ $RepairsRecordListSQL="SELECT `crr`.`crid`,`cbi`.`customer_name`,`chi`.`OpenFlag
 											<td class=\"center\">
 		                                        <a class=\"btn btn-success\" href=\"RepairsRecordDetail.php?crid=%d\">
 												    <i class=\"icon-zoom-in icon-white\"></i> 查看</a>
-												<a class=\"btn btn-info\" href=\"RepairsRecorEdit.php?crid=%d\">
+												<a class=\"btn btn-info\" href=\"RepairsRecordUpdate.php?crid=%d\">
 												    <i class=\"icon-edit icon-white\"></i> 更新</a>
-											</td></tr>",$RRLROW['customer_name'],$RRLROW['HostType'],$OpenflagStyle,$NOpenflag,$RRLROW['Name'],$requestime,$RRLROW['hid'],$RRLROW['IP'],
+											</td></tr>",$RRLROW['crid'],$RRLROW['customer_name'],$RRLROW['HostType'],$OpenflagStyle,$NOpenflag,$RRLROW['Name'],$requestime,$RRLROW['hid'],$RRLROW['IP'],
 														$RRLROW['description'],$completetime,$StateStyle,$RRLROW['state'],$RRLROW['crid'],$RRLROW['crid']);
 							  }
 							 

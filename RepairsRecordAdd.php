@@ -10,24 +10,9 @@
 		die("数据库连接失败！".$DBLINK->connect_error);
 	}
 	
-$CRID=$_GET['crid'];
-//获取用户报修工单列表
-$RequestRecordListSQL=sprintf("SELECT `crid`,`cid`,`requestime`,`uid`,`description`,`state`,`reason`,`IP`,`hid`,`qid`,`rpid`,`completetime` 
-									  FROM `customerequestrecord` WHERE `crid`='%s'",$CRID);	
-$RequestRecordListResult=$DBLINK->query($RequestRecordListSQL);
-$RRLR=$RequestRecordListResult->fetch_array(MYSQL_ASSOC);
-
-
-$RequestProcessListSQL=sprintf("SELECT `ProcessingMethod` FROM `requestprocess` WHERE `crid`='%s'",$CRID);
-$RequestProcessListResult=$DBLINK->query($RequestProcessListSQL);
-$RPLR=$RequestProcessListResult->fetch_array(MYSQL_ASSOC);
-
-
-
 //客户信息
 $CustomerInfoSQL="SELECT cid,customer_name FROM `customerbaseinformation`";
 $CustomerInfoResult=$DBLINK->query($CustomerInfoSQL);
-
 
 //主机申请人信息  ResponsiblePeople
 $ApplyUserSQL="SELECT uid,Name FROM `user` WHERE isTech='0'";
@@ -38,8 +23,14 @@ $ResponsiblePeopleSQL="SELECT uid,Name FROM `user` WHERE isTech='1'";
 $ResponsiblePeopleResult=$DBLINK->query($ResponsiblePeopleSQL);
 	
 //故障问题分类
-$QuestionCategorySQL="SELECT qid,Description FROM `questioncategory`";
+$QuestionCategorySQL="SELECT qid,QDescription FROM `questioncategory`";
 $ResultQuestionCategory=$DBLINK->query($QuestionCategorySQL);
+
+if (!$ResultQuestionCategory) {
+	echo "故障问题分类失败！".mysql_errno($ResultQuestionCategory);
+	
+}
+
 
 //定义时期和时间 试用一般为0.5小时
 $completeTimeCycle=time() + (0.5 * 60 * 60);
@@ -127,12 +118,7 @@ include 'include/LeftMenu.php';
 						<select id="selectError" data-rel="chosen" name="CustomerID" style="width: 220px;">
 						<?php 
 						while ($CustomerROW=$CustomerInfoResult->fetch_array(MYSQL_ASSOC)) {
-							if ($CustomerROW['cid']==$RRLR['cid']) {
-								printf("<option value=\"%d\" selected=\"selected\">%s</option>",$CustomerROW['cid'],$CustomerROW['customer_name']);;
-							} else {
-								printf("<option value=\"%d\">%s</option>",$CustomerROW['cid'],$CustomerROW['customer_name']);;
-							}
-							 
+							printf("<option value=\"%d\">%s</option>",$CustomerROW['cid'],$CustomerROW['customer_name']); 
 						}
 						?>
 						</select>
@@ -143,7 +129,7 @@ include 'include/LeftMenu.php';
 						<label class="control-label" for="appendedPrependedInput">IP</label>
 						<div class="controls">
 						  <div class="input-prepend input-append">
-								<input id="appendedPrependedInput" size="16" type="text" Name="IP" value="<?php echo $RRLR['IP'];?>"><span class="add-on">IPv4</span>
+								<input id="appendedPrependedInput" size="16" type="text" Name="IP"><span class="add-on">IPv4</span>
 						  </div>
 						</div>
 				  </div>
@@ -151,15 +137,10 @@ include 'include/LeftMenu.php';
 				  <div class="control-group">
 						<label class="control-label" for="selectError">受理人</label>
 						<div class="controls">
-						<select id="Responsiblepeople" data-rel="chosen" name="Responsiblepeople"  style="width: 110px;" >
+						<select id="selectError1" data-rel="chosen" name="Responsiblepeople"  style="width: 110px;" >
 						<?php 
 						while ($RPROW=$ResponsiblePeopleResult->fetch_array(MYSQL_ASSOC)) {
-							
-							if ($RPROW['uid']==$RRLR['uid']) {
-								printf("<option value=\"%d\" selected=\"selected\">%s</option>",$RPROW['uid'],$RPROW['Name']);
-							} else {
-								printf("<option value=\"%d\">%s</option>",$RPROW['uid'],$RPROW['Name']); 
-							}
+							printf("<option value=\"%d\">%s</option>",$RPROW['uid'],$RPROW['Name']); 
 						}
 						?>
 						</select>
@@ -169,22 +150,19 @@ include 'include/LeftMenu.php';
 		  		  <div class="control-group">
 					  <label class="control-label" for="date01">受理时间</label>
 					  <div class="controls">
-						<input type="text" id="datetimepicker" value="<?php $RRLR['requestime'];?>" name="RequestTime">
+						<input type="text" id="datetimepicker" value="<?php  echo Date("Y-m-d H:i");?>" name="RequestTime">
 					  </div>
 				  </div>
 				  
 				   <div class="control-group">
 						<label class="control-label" for="selectError">故障分类</label>
 						<div class="controls">
-						<select id="QuestionCategory" data-rel="chosen" name="QuestionCategory"  style="width: 110px;" >
+						<select id="selectError2" data-rel="chosen" name="QuestionCategory"  style="width: 110px;" >
 						<?php 
 						while ($RQROW=$ResultQuestionCategory->fetch_array(MYSQL_ASSOC)) {
-							if ($RQROW['qid']==$RRLR['qid']) {
-								printf("<option value=\"%d\" selected=\"selected\">%s</option>",$RQROW['qid'],$RQROW['Description']);
-							} else {
-								printf("<option value=\"%d\">%s</option>",$RQROW['qid'],$RQROW['Description']);
-							}
-
+							printf("<option value=\"%d\">%s</option>",$RQROW['qid'],$RQROW['QDescription']);
+							//print_r($RQROW);						
+	 
 						}
 						?>
 						</select>
@@ -194,28 +172,24 @@ include 'include/LeftMenu.php';
   				  <div class="control-group">
 					  <label class="control-label" for="textarea2">故障描述</label>
 					  <div class="controls">
-						<textarea  class="autogrow textareaRP" id="description" rows="2" name="description" style="height:90px;"><?php echo $RRLR['description']?></textarea>
+						<textarea  class="autogrow textareaRP" id="description" rows="2" name="description" style="height:90px;"></textarea>
 					  </div>
 				  </div>
 				  
 				  <div class="control-group">
 					  <label class="control-label" for="textarea2">故障原因</label>
 					  <div class="controls">
-						<textarea  class="autogrow textareaRP" id="reason"" rows="2" name="reason" style="height:90px;"><?php echo $RRLR['reason']?></textarea>
+						<textarea  class="autogrow textareaRP" id="reason"" rows="2" name="reason" style="height:90px;"></textarea>
 					  </div>
 				  </div>
 				  
 				 <div class="control-group">
-						<label class="control-label" for="selectError">主机状态</label>
+						<label class="control-label" for="selectError">主机型号</label>
 						<div class="controls">
 						<select id="selectError6" data-rel="chosen" name="RequestRecordState" style="width: 110px;">
 						<?php 
 							for ($i = 0; $i < count($RequestRecordState); $i++) {
-								if($RequestRecordState[$i]==$RRLR['state']) {
-									echo "<option value=\"$RequestRecordState[$i]\" selected=\"selected\">$RequestRecordState[$i]</option>";
-								} else {
-									echo "<option value=\"$RequestRecordState[$i]\">$RequestRecordState[$i]</option>";
-								}
+								echo "<option value=\"$RequestRecordState[$i]\">$RequestRecordState[$i]</option>";
 							}
 						?>
 						</select>
@@ -225,17 +199,18 @@ include 'include/LeftMenu.php';
 				  <div class="control-group">
 					  <label class="control-label" for="date01">完成时间</label>
 					  <div class="controls">
-						<input type="text" id="CompleteTime" value="<?php  echo $RRLR['completetime'];?>" name="completetime">
+						<input type="text" id="CompleteTime" value="<?php  echo Date("Y-m-d H:i");?>" name="completetime">
 					  </div>
 				  </div>
 				  
 				  <div class="control-group">
 					  <label class="control-label" for="textarea2">处理方法</label>
 					  <div class="controls">
-						<textarea  class="autogrow textareaRP" id="ProcessingMethod"" rows="2" name="ProcessingMethod" style="height:90px;"><?php $RPLR['ProcessingMethod'];?></textarea>
+						<textarea  class="autogrow textareaRP" id="ProcessingMethod"" rows="2" name="ProcessingMethod" style="height:90px;"></textarea>
 					  </div>
 				  </div>
 					
+
 				  <div class="form-actions">
 					<button type="submit" class="btn btn-primary">提交问题</button>
 					<button class="btn">取消</button>
@@ -265,5 +240,6 @@ $('#CompleteTime').datetimepicker({
 $CustomerInfoResult->free();
 $ResponsiblePeopleResult->free();
 $DBLINK->close();
+
 //include('footer.php'); 
-?>			
+?>		
