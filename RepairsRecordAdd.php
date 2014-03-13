@@ -115,7 +115,7 @@ include 'include/LeftMenu.php';
 				  <div class="control-group">
 						<label class="control-label" for="selectError">客户名称</label>
 						<div class="controls">
-						<select id="selectError" data-rel="chosen" name="CustomerID" style="width: 220px;">
+						<select id="CustomerID" data-rel="chosen" name="CustomerID" style="width: 220px;">
 						<?php 
 						while ($CustomerROW=$CustomerInfoResult->fetch_array(MYSQL_ASSOC)) {
 							printf("<option value=\"%d\">%s</option>",$CustomerROW['cid'],$CustomerROW['customer_name']); 
@@ -125,13 +125,24 @@ include 'include/LeftMenu.php';
 						</div>
 				  </div>
 				  
-				   <div class="control-group">
-						<label class="control-label" for="appendedPrependedInput">IP</label>
-						<div class="controls">
-						  <div class="input-prepend input-append">
-								<input id="appendedPrependedInput" size="16" type="text" Name="IP"><span class="add-on">IPv4</span>
-						  </div>
-						</div>
+<!-- 				   <div class="control-group"> -->
+<!-- 						<label class="control-label" for="appendedPrependedInput">IP</label> -->
+<!-- 						<div class="controls"> -->
+<!-- 						  <div class="input-prepend input-append"> -->
+<!-- 								<input id="appendedPrependedInput" size="16" type="text" Name="IP"><span class="add-on">IPv4</span> -->
+<!-- 						  </div> -->
+							
+<!-- 						</div> -->
+<!-- 				  </div> -->
+				  
+	  			 <div class="control-group">
+					<label class="control-label" for="selectError3">IP</label>
+					<div class="controls">
+					  <select id="HostID" Name="hid">
+						<option>请选择IP</option>
+					  </select>
+					</div>
+					 <input id="IP" size="16" type="hidden" Name="IP" value=''>
 				  </div>
 				  
 				  <div class="control-group">
@@ -224,7 +235,6 @@ include 'include/LeftMenu.php';
 include 'footer.php';
 ?>
 <script>
-
 $('#datetimepicker').datetimepicker({
 	format:'Y-m-d H:i',
 	step:10
@@ -234,7 +244,27 @@ $('#CompleteTime').datetimepicker({
 	step:10
 });
 
-</script>			
+$("#CustomerID").change(function() {
+	$.ajax({
+		type: "get",
+		url: "RepairRecordManager.php", 
+		data: {"CustomerID": $(this).val()},
+		dataType: "json",
+		success: function(data) {
+			$("#HostID").html("<option value=''>请选择IP</option>");
+			$.each(data, function(i, item) {
+				$("#HostID").append("<option value='" + item.hid + "'>" + item.IP + "</option>");
+			});
+		}
+	});
+});
+
+$("#HostID").change(function() {
+    var IP=$(this).find("option:selected").text();
+	$("#IP").val(IP);
+});
+
+</script>
 			
 <?php 
 $CustomerInfoResult->free();

@@ -247,7 +247,7 @@ include 'include/LeftMenu.php';
 	</div><!--/span-->			
 </div><!--/row-->
 <?php 
-//include 'footer.php';
+include 'footer.php';
 ?>
 <script>
 
@@ -265,7 +265,5 @@ $('#CompleteTime').datetimepicker({
 $CustomerInfoResult->free();
 $ResponsiblePeopleResult->free();
 $DBLINK->close();
-
-include('footer.php');
  
 ?>			

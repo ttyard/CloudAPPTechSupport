@@ -1,6 +1,6 @@
 <?php
 
-include 'include/db_mysql.class.php';
+include 'include/DBHelper.php';
 include 'include/config.inc.php';
 
 
@@ -20,10 +20,26 @@ $EndTimecycle=time() + (0.5 * 60 * 60);
 //当前日期
 $NowDateTime=Date("Y-m-d H:i:s");
 
+
+//jQuery Ajax动态获取IP地址
+$CustomerID = isset($_GET["CustomerID"]) ? $_GET["CustomerID"] : "";
+
+if ($CustomerID == "") {
+    exit(json_encode(array("flag" => false, "msg" => "查询类型错误")));
+} else {  
+    $db = new DBHelper(DBHOST,DBUSER, DBPW, DBNAME);
+    $Host = $db->getSomeResult("cloudhost_information", "hid,IP", "customerID={$CustomerID}");
+    $Host_json = json_encode($Host);
+    exit($Host_json);
+}
+
+
+
 switch ($Action){  
 	case Add:
 		$CustomerID=trim($_POST['CustomerID']);
 		$IP=trim($_POST['IP']);
+		$hid=trim($_POST['hid']);
 		$Responsiblepeople=trim($_POST['Responsiblepeople']);
 		$RequestTime=trim($_POST['RequestTime']);
 		$QuestionCategory=trim($_POST['QuestionCategory']); 
@@ -36,6 +52,7 @@ switch ($Action){
 		if (!get_magic_quotes_gpc()) {
 			$CustomerID=addslashes($CustomerID);
 			$IP=addslashes($IP);
+			$hid=addslashes($hid);
 			$Responsiblepeople=addslashes($Responsiblepeople);
 			$RequestTime=addslashes($RequestTime);			
 			$QuestionCategory=addslashes($QuestionCategory);
@@ -48,10 +65,12 @@ switch ($Action){
 		}
 
 		//获取报修主机ID
+		/*
 		$GetHidSQL=sprintf("SELECT `hid` FROM `cloudhost_information` WHERE `customerID`='%d' AND `IP`='%s'",$CustomerID,$IP);
 		$GetHidResult=$DBLINK->query($GetHidSQL);
 		$GetHid=$GetHidResult->fetch_array(MYSQL_ASSOC);
 		$hid=$GetHid['hid'];
+		*/
 		
 		//生成故障处理表 编号`customerequestrecord` crid
 		$cridSQL="SELECT `crid` FROM `customerequestrecord` ORDER BY `crid` DESC LIMIT 1";

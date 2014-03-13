@@ -73,10 +73,10 @@
 					<ul class="nav nav-tabs nav-stacked main-menu">
 						<li class="nav-header hidden-tablet">管理菜单</li>
 						<li><a class="ajax-link" href="index.php"><i class="icon-home"></i><span class="hidden-tablet"> 首页</span></a></li>
-						<li><a class="ajax-link" href="User.php"><i class="icon-eye-open"></i><span class="hidden-tablet"> 系统用户管理</span></a></li>
-						<li><a class="ajax-link" href="Customer.php"><i class="icon-eye-open"></i><span class="hidden-tablet"> 客户信息管理</span></a></li>
-						<li><a class="ajax-link" href="Host.php"><i class="icon-eye-open"></i><span class="hidden-tablet"> 云主机管理</span></a></li>
-						<li><a class="ajax-link" href="RepairsRecord.php"><i class="icon-eye-open"></i><span class="hidden-tablet"> 客户报修</span></a></li>
+						<li><a class="ajax-link" href="User.php"><i class="icon-user"></i><span class="hidden-tablet"> 系统用户管理</span></a></li>
+						<li><a class="ajax-link" href="Customer.php"><i class="icon-file"></i><span class="hidden-tablet"> 客户信息管理</span></a></li>
+						<li><a class="ajax-link" href="Host.php"><i class="icon-list-alt"></i><span class="hidden-tablet"> 云主机管理</span></a></li>
+						<li><a class="ajax-link" href="RepairsRecord.php"><i class="icon-wrench"></i><span class="hidden-tablet"> 客户报修</span></a></li>
 						
 					</ul>
 					<label id="for-is-ajax" class="hidden-tablet" for="is-ajax"><input id="is-ajax" type="checkbox"> Ajax on menu</label>
